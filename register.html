@@ -1,0 +1,104 @@
+<!-- I certify that this submission is my own original work - Piyush Malik -->
+
+
+<!--
+This HTML code represents a user registration form. It includes form validation JavaScript code that checks the email, password, confirm password, and username values before submitting the form.
+
+The email field is checked to ensure that it ends with a valid domain name from the validDomains array. If it doesn't, an alert is displayed, and the form submission is prevented.
+
+The password and confirm password fields are checked to ensure that they match. If they don't, an alert is displayed, and the form submission is prevented.
+
+The username field is checked to ensure that it has at least 6 characters. If it doesn't, an alert is displayed, and the form submission is prevented.
+
+The password field is also checked using a regular expression to ensure that it has at least 8 characters with at least one lowercase letter, one uppercase letter, and one numeric digit. If it doesn't match the required pattern, an alert is displayed, and the form submission is prevented.
+
+The form uses the onsubmit attribute to call the validateForm() function before submitting the form. If the function returns false, the form submission is prevented. If it returns true, the form is submitted to the register.php file.
+
+The code also includes a link to the user login page for users who already have an account. This link points to the login.html file.
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <!-- Adding the Bootstrap CDN link here -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script>
+        function validateForm() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirm_password').value;
+            var username = document.getElementById('username').value;
+
+            // Email must end with a valid domain name
+            if (!isValidDomain(email)) {
+                alert('Email must end with a valid domain name.');
+                return false;
+            }
+
+            // Password and Confirm Password must match
+            if (password !== confirmPassword) {
+                alert('Password and Confirm Password must match.');
+                return false;
+            }
+
+            // Username must be at least 6 characters
+            if (username.length < 6) {
+                alert('Username must be at least 6 characters long.');
+                return false;
+            }
+
+            // Password must contain at least 8 characters with at least one lowercase letter, one uppercase letter, and one numeric digit
+            var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+            if (!password.match(passwordRegex)) {
+                alert('Password must contain at least 8 characters with at least one lowercase letter, one uppercase letter, and one numeric digit.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function isValidDomain(email) {
+            var validDomains = [".com", ".org", ".net", ".edu", ".Co"]; // Add more valid domain names as needed
+
+            for (var i = 0; i < validDomains.length; i++) {
+                if (email.endsWith(validDomains[i])) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>User Registration</h2>
+        <form method="post" action="register.php" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" name="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" name="username" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" name="register">Register</button>
+
+            <!-- Link to the user login page -->
+            <p class="mt-3">Already have an account? <a href="login.html">Login here</a>.</p>
+        </form>
+    </div>
+</body>
+</html>
